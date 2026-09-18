@@ -16,7 +16,7 @@ function setupEvents(){addEventListener('resize',()=>{camera.aspect=innerWidth/i
 function requestLock(){try{const p=renderer.domElement.requestPointerLock();if(p?.catch)p.catch(()=>{})}catch{}}
 function playFlow(){const worlds=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k?.startsWith('voxelWorld:'))worlds.push(k)}if(worlds.length)loadWorld(worlds[0]);else{screen('create');setState('CREATE')}}
 function worldsFlow(){refreshWorlds();screen('worlds');setState('WORLDS')}
-function navigateBack(id){if(id==='menu'){screen('menu');setState('MENU')}else if(id==='worlds'){refreshWorlds();screen('worlds');setState('WORLDS')}else{screen(id);setState(id.toUpperCase())}}
+function navigateBack(id){if(state==='MULTIPLAYER'&&mp?.peer)mp.leave();if(id==='menu'){screen('menu');setState('MENU')}else if(id==='worlds'){refreshWorlds();screen('worlds');setState('WORLDS')}else{screen(id);setState(id.toUpperCase())}}
 function openSettings(from){$('settings').dataset.return=from;syncSettings();screen('settings');setState('SETTINGS')}
 function resetInventory(){inventory={};for(const id of Object.keys(BLOCKS))inventory[id]=0;inventory.apple=8;hot=HOTBAR_BLOCKS.map((id,i)=>({id,count:i===1?16:0}));hotIndex=0}
 function startNew(){const name=$('worldName').value.trim()||'New World';const key='voxelWorld:'+name;world=new World(seedNumber($('worldSeed').value.trim()),$('worldType').value);world.findSpawn();player={pos:new THREE.Vector3(world.spawn.x,world.spawn.y,world.spawn.z)};health=20;hunger=20;hungerClock=regenClock=0;resetInventory();currentWorldKey=key;save();enterWorld()}
