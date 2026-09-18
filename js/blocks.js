@@ -1,3 +1,27 @@
-export const BLOCKS={air:{id:0,name:'Air',solid:false,transparent:true},grass:{id:1,name:'Grass Block',solid:true,hardness:.6,drop:'grass',color:0x69a84f},dirt:{id:2,name:'Dirt',solid:true,hardness:.5,drop:'dirt',color:0x8a5a38},stone:{id:3,name:'Stone',solid:true,hardness:1.5,drop:'cobblestone',color:0x777b7d},cobblestone:{id:4,name:'Cobblestone',solid:true,hardness:2,color:0x62676a},sand:{id:5,name:'Sand',solid:true,hardness:.5,drop:'sand',color:0xd8c07a},wood:{id:6,name:'Wood',solid:true,hardness:2,drop:'wood',color:0x765033},leaves:{id:7,name:'Leaves',solid:true,transparent:true,hardness:.2,drop:'leaves',color:0x3f8b4e},planks:{id:8,name:'Planks',solid:true,hardness:2,drop:'planks',color:0xa77a4a},coal_ore:{id:9,name:'Coal Ore',solid:true,hardness:3,drop:'coal',color:0x41464a},iron_ore:{id:10,name:'Iron Ore',solid:true,hardness:3,drop:'raw_iron',color:0x987f6e},copper_ore:{id:11,name:'Copper Ore',solid:true,hardness:3,drop:'raw_copper',color:0xa86e50},gold_ore:{id:12,name:'Gold Ore',solid:true,hardness:3,drop:'raw_gold',color:0xd5ad43},diamond_ore:{id:13,name:'Diamond Ore',solid:true,hardness:4,drop:'diamond',color:0x4fc7d6},snow:{id:14,name:'Snow',solid:true,hardness:.2,drop:'snow',color:0xe8edf0},sandstone:{id:15,name:'Sandstone',solid:true,hardness:.8,drop:'sandstone',color:0xbca36a},glass:{id:16,name:'Glass',solid:true,transparent:true,hardness:.3,drop:'glass',color:0xa8d9df},brick:{id:17,name:'Bricks',solid:true,hardness:2,drop:'brick',color:0x9d5447},crafting_table:{id:18,name:'Crafting Table',solid:true,hardness:2.5,drop:'crafting_table',color:0x9b633b},furnace:{id:19,name:'Furnace',solid:true,hardness:3,drop:'furnace',color:0x55595a},torch:{id:20,name:'Torch',solid:false,transparent:true,light:12,drop:'torch',color:0xf2bd58},water:{id:21,name:'Water',solid:false,transparent:true,liquid:true,color:0x3f8fd1},bedrock:{id:22,name:'Bedrock',solid:true,hardness:999,color:0x282b2d}};
+export const BLOCKS={
+  air:{id:0,name:'Air',solid:false,transparent:true},
+  grass:{id:1,name:'Grass Block',solid:true,hardness:.6,drop:'grass',textures:{top:'grass_top',side:'grass_side',bottom:'dirt'}},
+  dirt:{id:2,name:'Dirt',solid:true,hardness:.5,drop:'dirt',textures:{all:'dirt'}},
+  stone:{id:3,name:'Stone',solid:true,hardness:1.5,drop:'cobblestone',textures:{all:'stone'}},
+  cobblestone:{id:4,name:'Cobblestone',solid:true,hardness:2,textures:{all:'cobblestone'}},
+  sand:{id:5,name:'Sand',solid:true,hardness:.5,drop:'sand',textures:{all:'sand'}},
+  wood:{id:6,name:'Wood',solid:true,hardness:2,drop:'wood',textures:{top:'log_top',side:'log_side',bottom:'log_top'}},
+  leaves:{id:7,name:'Leaves',solid:true,transparent:true,hardness:.2,drop:'leaves',textures:{all:'leaves'}},
+  planks:{id:8,name:'Planks',solid:true,hardness:2,drop:'planks',textures:{all:'planks'}},
+  coal_ore:{id:9,name:'Coal Ore',solid:true,hardness:3,drop:'coal',textures:{all:'coal_ore'}},
+  iron_ore:{id:10,name:'Iron Ore',solid:true,hardness:3,drop:'raw_iron',textures:{all:'iron_ore'}},
+  copper_ore:{id:11,name:'Copper Ore',solid:true,hardness:3,drop:'raw_copper',textures:{all:'copper_ore'}},
+  gold_ore:{id:12,name:'Gold Ore',solid:true,hardness:3,drop:'raw_gold',textures:{all:'gold_ore'}},
+  diamond_ore:{id:13,name:'Diamond Ore',solid:true,hardness:4,drop:'diamond',textures:{all:'diamond_ore'}},
+  snow:{id:14,name:'Snow',solid:true,hardness:.2,drop:'snow',textures:{all:'snow'}},
+  sandstone:{id:15,name:'Sandstone',solid:true,hardness:.8,drop:'sandstone',textures:{all:'sandstone'}},
+  glass:{id:16,name:'Glass',solid:true,transparent:true,hardness:.3,drop:'glass',textures:{all:'glass'}},
+  brick:{id:17,name:'Bricks',solid:true,hardness:2,drop:'brick',textures:{all:'brick'}},
+  crafting_table:{id:18,name:'Crafting Table',solid:true,hardness:2.5,drop:'crafting_table',textures:{all:'planks'}},
+  furnace:{id:19,name:'Furnace',solid:true,hardness:3,drop:'furnace',textures:{all:'stone'}},
+  torch:{id:20,name:'Torch',solid:false,transparent:true,light:12,drop:'torch',textures:{all:'log_side'}},
+  water:{id:21,name:'Water',solid:false,transparent:true,liquid:true},
+  bedrock:{id:22,name:'Bedrock',solid:true,hardness:999,textures:{all:'bedrock'}}
+};
 export const BLOCK_BY_ID=Object.fromEntries(Object.values(BLOCKS).map(b=>[b.id,b]));
 export const HOTBAR_BLOCKS=['grass','dirt','stone','sand','wood','planks','cobblestone','glass','torch'];
