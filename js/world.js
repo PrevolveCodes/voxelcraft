@@ -94,7 +94,7 @@ export class World{
       if(dx*dx+dz*dz>dist*dist)continue;
       const x=cx+dx,z=cz+dz,k=this.key(x,z);required.add(k);
       const chunk=this.ensure(x,z);
-      if(chunk.state!=='RENDERED'){chunk.state='MESHING';this.meshChunk(x,z,scene);chunk.state=this.meshes.has(k)?'RENDERED':'GENERATED';changed.add(k)}
+      if(chunk.state!=='RENDERED'){chunk.state='MESHING';this.meshChunk(x,z,scene);chunk.state=this.meshes.has(k)?'RENDERED':'GENERATED';changed.add(k);for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1]])changed.add(this.key(x+dx,z+dz))}
     }
     for(const chunk of [...this.chunks.values()]){
       const k=this.key(chunk.cx,chunk.cz);
