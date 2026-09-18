@@ -34,7 +34,7 @@ function createRemote(p){const g=new THREE.Group(),mat=new THREE.MeshLambertMate
 function removeRemote(id){const r=remotePlayers.get(id);if(!r)return;r.target.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material)o.material.dispose()});r.target.parent?.remove(r.target);remotePlayers.delete(id)}
 function applyNetworkBlock(b){if(!world||!b)return;world.set(b.x,b.y,b.z,b.id)}
 function changeBlock(x,y,z,id){if(mp?.peer&&mp.hostId)mp.requestBlock({x,y,z,id});else world.set(x,y,z,id)}
-function updateRemotePlayers(dt){for(const r of remotePlayers.values()){const a=.min?0:1;r.current.lerp(r.target.position,1-Math.exp(-12*dt));r.target.position.copy(r.current)}}
+function updateRemotePlayers(dt){for(const r of remotePlayers.values()){const a=1;r.current.lerp(r.target.position,1-Math.exp(-12*dt));r.target.position.copy(r.current)}}
 function save(){if(!world||!player||!currentWorldKey)return;localStorage.setItem(currentWorldKey,JSON.stringify({saveVersion:3,name:currentWorldKey.slice(12),seed:world.seed,type:world.type,player:{x:player.pos.x,y:player.pos.y,z:player.pos.z},health,hunger,inventory,hot,hotIndex,modified:Object.fromEntries(world.modified)}))}
 function leaveMenu(){save();if(locked)document.exitPointerLock();world?.clearMeshes();target=breaking=null;screen('menu');setState('MENU')}
 function solid(x,y,z){const b=BLOCK_BY_ID[world.get(x,y,z)];return!!(b?.solid&&!b.transparent)}
