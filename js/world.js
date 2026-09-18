@@ -89,11 +89,25 @@ export class World{
     const mesh=new THREE.Mesh(geo,mat);mesh.frustumCulled=true;mesh.updateMatrixWorld(true);scene.add(mesh);this.meshes.set(key,mesh);
   }
   loadNear(px,pz,dist,scene){
-    this.scene=scene;this.renderedRadius=dist;const {cx,cz}=this.chunkCoords(px,pz),required=new Set();
-    for(let dx=-dist;dx<=dist;dx++)for(let dz=-dist;dz<=dist;dz++){if(dx*dx+dz*dz>dist*dist)continue;const x=cx+dx,z=cz+dz;required.add(this.key(x,z));const c=this.ensure(x,z);if(c.state!=='RENDERED'){c.state='MESHING';this.meshChunk(x,z,scene);c.state=this.meshes.has(this.key(x,z))?'RENDERED':'GENERATED'}}
-    for(const c of this.chunks.values())if(c.state==='RENDERED'&&!required.has(this.key(c.cx,c.cz)))this.disposeChunk(c.cx,c.cz);
-    for(const c of this.chunks.values())if(c.state==='RENDERED')this.rebuild(c.cx,c.cz);
-    for(const c of this.chunks.values())if(required.has(this.key(c.cx,c.cz))&&c.state==='RENDERED'){this.rebuild(c.cx,c.cz)}
+    this.scene=scene;this.renderedRadius=dist;const {cx,cz}=this.chunkCoords(px,pz),required=new Set(),changed=new Set();
+    for(let dx=-dist;dx<=dist;dx++)for(let dz=-dist;dz<=dist;dz++){
+      if(dx*dx+dz*dz>dist*dist)continue;
+      const x=cx+dx,z=cz+dz,k=this.key(x,z);required.add(k);
+      const chunk=this.ensure(x,z);
+      if(chunk.state!=='RENDERED'){chunk.state='MESHING';this.meshChunk(x,z,scene);chunk.state=this.meshes.has(k)?'RENDERED':'GENERATED';changed.add(k)}
+    }
+    for(const chunk of [...this.chunks.values()]){
+      const k=this.key(chunk.cx,chunk.cz);
+      if(chunk.state==='RENDERED'&&!required.has(k)){
+        changed.add(k);
+        for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1]])changed.add(this.key(chunk.cx+dx,chunk.cz+dz));
+        this.disposeChunk(chunk.cx,chunk.cz);
+      }
+    }
+    for(const k of changed){
+      const [x,z]=k.split(',').map(Number),chunk=this.chunks.get(k);
+      if(chunk?.state==='RENDERED'){const old=this.meshes.get(k);if(old){old.parent?.remove(old);old.geometry.dispose();old.material.dispose();this.meshes.delete(k)}this.meshChunk(x,z,scene)}
+    }
   }
   clearMeshes(){for(const m of this.meshes.values()){m.parent?.remove(m);m.geometry.dispose();m.material.dispose()}this.meshes.clear();this.chunks.clear()}
   findSpawn(){for(let r=0;r<80;r++)for(let x=-r;x<=r;x++)for(const z of[-r,r]){const y=this.height(x,z);if(!this.get(x,y+1,z)&&!this.get(x,y+2,z)){this.spawn={x:x+.5,y:y+1.01,z:z+.5};return}}this.spawn={x:.5,y:this.height(0,0)+1.01,z:.5}}
